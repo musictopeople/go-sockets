@@ -37,8 +37,8 @@ func fetchData(id string) (string, error) {
 
 func (s *Server) HandleRequest(w http.ResponseWriter, r *http.Request) {
 
-	//simulate a delay
-	time.Sleep(2 * time.Second)
+	//simulate delay at random intervals
+	time.Sleep(time.Duration(rand.Intn(10)) * time.Second)
 
 	ws, err := s.upgrader.Upgrade(w, r, nil)
 	if err != nil {
