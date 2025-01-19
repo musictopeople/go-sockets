@@ -25,7 +25,7 @@ cd in to the go-socket directory and run ./run.sh command in your terminal
 The POC is behind localhost:8080/load-test
 
 Hitting this endpoint in your browser or with a curl command will send 1000 concurrent calls to localhost:8081/process. 
-You will receive a response once all 1000 requests have been persisted with their status. Check out response time compared to the log as your requests process!
+You will receive a response once all 1000 requests have been persisted with their status. Check out response time compared to the log as your requests process! Go ahead and load a few times...you'll notice your response continues to be immediate despite the open websockets.
 
 You will not have to wait around for your requests to be processed which means you will receive confirmation of all 1000 requests quicker than you would expect.
 

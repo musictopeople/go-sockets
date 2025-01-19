@@ -18,7 +18,7 @@ func Handle(db *DB) *Handler {
 	return &Handler{db: db}
 }
 
-func (h *Handler) ProcessHandler(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) Process(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	id, err := h.db.CreatePendingResponse(ctx)
@@ -38,7 +38,7 @@ func (h *Handler) ProcessHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 }
 
-func (h *Handler) StatusHandler(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) Status(w http.ResponseWriter, r *http.Request) {
 	idStr := r.URL.Path[len("/status/"):]
 	id, err := uuid.Parse(idStr)
 	if err != nil {

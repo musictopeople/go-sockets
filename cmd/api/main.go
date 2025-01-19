@@ -16,10 +16,10 @@ func main() {
 		log.Fatalf("failed to initialize schema: %v", err)
 	}
 
-	handler := Handle(db)
+	handle := Handle(db)
 
-	http.HandleFunc("/process", handler.ProcessHandler)
-	http.HandleFunc("/status/", handler.StatusHandler)
+	http.HandleFunc("/process", handle.Process)
+	http.HandleFunc("/status/", handle.Status)
 
 	log.Println("server starting on localhost:8081")
 	log.Fatal(http.ListenAndServe(":8081", nil))
