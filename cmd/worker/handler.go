@@ -7,7 +7,6 @@ import (
 	"math/rand"
 	"net/http"
 	"strconv"
-	"sync/atomic"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -41,14 +40,13 @@ func (s *Server) HandleRequest(w http.ResponseWriter, r *http.Request) {
 	time.Sleep(time.Duration(rand.Intn(10)) * time.Second)
 
 	ws, err := s.upgrader.Upgrade(w, r, nil)
+
 	if err != nil {
 		log.Printf("error upgrading to web socket protocol: %v", err)
 		return
 	}
-	defer ws.Close()
 
-	atomic.AddInt64(&s.activeConnections, 1)
-	defer atomic.AddInt64(&s.activeConnections, -1)
+	defer ws.Close()
 
 	go func() {
 
