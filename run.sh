@@ -2,7 +2,7 @@
 
 cleanup() {
     echo "Shutting down apps and containers"
-    kill -INT -- -$!
+    kill "$loader_pid" "$api_pid" "$worker_pid"
     wait
     sudo docker-compose down
     exit 0
@@ -22,10 +22,16 @@ done
 
 export DATABASE_URL="postgres://postgres:password@localhost:5432/responses"
 
-go run cmd/loader/main.go & loader_pid=$!
-go run cmd/api/main.go & api_pid=$!
-cd cmd/worker || exit 1
+pushd cmd/loader > /dev/null || exit 1
+go run . & loader_pid=$!
+popd > /dev/null || exit 1
+
+pushd cmd/api > /dev/null || exit 1
+go run . & api_pid=$!
+popd > /dev/null || exit 1
+
+pushd cmd/worker > /dev/null || exit 1
 go run . & worker_pid=$!
-cd - > /dev/null || exit 1
+popd > /dev/null || exit 1
 
 wait "$loader_pid" "$api_pid" "$worker_pid"
